@@ -1,0 +1,28 @@
+@WebApiHost = http://localhost:5220
+
+
+###
+//add a role
+POST {{WebApiHost}}/roles/Rookies
+
+###
+//get a chunk of ten categories and their currencies
+GET {{WebApiHost}}/categories/10
+
+###
+//gets all categories and their currencies
+GET {{WebApiHost}}/categories/listall
+
+###
+//gets category with id = 1 
+GET {{WebApiHost}}/category/1
+
+###
+//gets a chunk of ten roles and their users
+GET {{WebApiHost}}/roles/0
+
+###
+//get all users
+GET {{WebApiHost}}/users
+
+###

@@ -1,0 +1,130 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using ASPdemo.Entities
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject RoleManager<Role> RoleManager
+@model AdministrationModel
+@{
+    ViewData["Title"] = "Administration";
+
+    var searchTerm = ViewData["SearchTerm"]; 
+    var users = new List<Entities.User>(); 
+
+    try
+    {
+        users = ViewData["users"] as List<Entities.User>;
+    }
+    catch
+    {
+    }
+    var skipId = ViewData["SkipId"];
+    var skipPrevious = ViewData["SkipPrevious"];
+    var url = "";
+    var previousUrl = "";
+
+    if (skipId != null)
+    {
+        int skipInt = Convert.ToInt16(skipId);
+        int skipPreviousInt = 0;
+        if (skipInt > 10)
+        {
+            skipPreviousInt = skipInt - 10;
+        }
+        skipInt = skipInt + 10; 
+        url = "/Roles/?SkipId=" + skipInt;
+        previousUrl = "/Roles/?SkipId=" + skipPreviousInt;
+    }
+    else
+    {
+        url = "/Roles/?SkipId=" + 10;
+    }
+    async Task Join(Role role)
+    {
+        Console.WriteLine("Wowie Zowie");
+    }
+}
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="text-center">
+    <h1 class="display-4">Administration</h1>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <form method="post">
+            <input asp-for="Search!.SearchTerm" placeholder="Search Roles by Name"/>
+        <input type="submit" />
+        </form>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <h1>Name</h1>
+                    </th>
+                    <th>
+                        <h1>Email</h1>
+                    </th>
+                </tr>
+            </thead>
+            @if (Model.filteredRoles == null) //Displays all categories if no filter is selected
+            {
+                @foreach (Entities.Role role in Model.roles)
+                {
+                    <h1>Role: @role.Name</h1>
+                    <h3>Id: @role.Id</h3>
+                    <tbody>
+                        @if (users != null)
+                        {
+                            @foreach (Entities.User user in users)
+                            {
+                                <td>
+                                    @user.UserName
+                                </td>
+                                <td>
+                                    @user.Email
+                                </td>
+                            }
+                        }
+                        
+                    </tbody>
+                }
+            }
+            else //displays filtered categories
+            {
+                @foreach (Entities.Role role in Model.filteredRoles)
+                {
+                    <h1>Role: @role.Name</h1>
+                    <h3>Id: @role.Id</h3>
+                    <tbody>
+                        <tr>
+                            @if (users != null)
+                            {
+                                @foreach (Entities.User user in users)
+                                {
+                                    <td>
+                                        @user.UserName
+                                    </td>
+                                    <td>
+                                        @user.Email
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    </tbody>
+                }
+            }
+        </table>
+        @if (Model.roles != null)
+        {
+            @if (Model.roles.Count > 0)
+            {
+                <a href="@url" class="btn btn-primary">Next</a>
+            }
+            <a href="@previousUrl" class="btn btn-primary">Previous</a>
+        }
+    }
+    else
+    {
+        <a class="nav-link text-dark" id="login" asp-area="" asp-page="/Account/Login">Login</a>
+    }
+</div>

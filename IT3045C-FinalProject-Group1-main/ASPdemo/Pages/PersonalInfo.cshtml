@@ -1,0 +1,59 @@
+﻿@page
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Identity
+@using ASPdemo.Entities
+@using ASPdemo.Database
+@using Microsoft.EntityFrameworkCore
+@inject SignInManager<User> signInManager
+@inject UserManager<User> userManager
+@model PersonalInfoModel
+@{
+    ViewData["Title"] = "Personal Information";
+
+    var userName = ViewData["username"];
+    var userEmail = ViewData["email"]; 
+}
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="text-center">
+    <h1 class="display-4">Personal Information</h1>
+    <br>
+    @if (signInManager.IsSignedIn(User))
+    {
+        <h2><u><b>Username</b></u></h2>
+        <h3>
+            @if (@userName != null)
+            {
+                @userName
+            }
+            else
+            {
+                <p>No username to display</p>
+            }
+        </h3>
+        <br>
+        <br>
+        <h2><u><b>Email</b></u></h2>
+        <h3>
+            @if (@userEmail != null)
+            {
+                @userEmail
+            }
+            else
+            {
+                <p>No email to display</p>
+            }
+        </h3>
+        <br>
+        <br>
+        <h2><u><b>Update your Username</b></u></h2>
+        <form id="newUserNameForm" method="post" runat="server">
+            <input asp-for="Input.newUserName" id="newUserNameForm" placeholder="New Username"/>
+            <input type="submit" />
+        </form>
+    }
+    else
+    {
+        <a class="nav-link text-dark" id="login" asp-area="" asp-page="/Account/Login">Login to view personal info</a>
+    }
+</div>
