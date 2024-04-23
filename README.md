@@ -14,7 +14,7 @@ classDiagram
     User --|> Portfolio : Has One
     Portfolio --|> PortfolioToken : Contains Many
     PortfolioToken --|> User : Has One 
-    Currency <|-- Conversions : Contains Many
+    Currency <|-- Conversion : Contains Many
     User <|--|> Role : Many-to-Many (Using Join Table)
     class Currency{
         +int CurrencyId PK
