@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPdemo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240421034353_ResetModel")]
-    partial class ResetModel
+    [Migration("20240423014719_RemovedCrPtfTable")]
+    partial class RemovedCrPtfTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,27 +144,6 @@ namespace ASPdemo.Migrations
                     b.ToTable("Conversions");
                 });
 
-            modelBuilder.Entity("ASPdemo.Entities.CurrenciesPortfolios", b =>
-                {
-                    b.Property<int>("CurrenciesPortfoliosId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PortfolioId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("CurrenciesPortfoliosId");
-
-                    b.HasIndex("CurrencyId");
-
-                    b.HasIndex("PortfolioId");
-
-                    b.ToTable("CurrenciesPortfolios");
-                });
-
             modelBuilder.Entity("ASPdemo.Entities.Currency", b =>
                 {
                     b.Property<int>("CurrencyId")
@@ -196,9 +175,6 @@ namespace ASPdemo.Migrations
                     b.Property<double?>("PercentChange7d")
                         .HasColumnType("REAL");
 
-                    b.Property<int?>("PortfolioId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<double?>("Price")
                         .HasColumnType("REAL");
 
@@ -219,8 +195,6 @@ namespace ASPdemo.Migrations
                     b.HasKey("CurrencyId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("PortfolioId");
 
                     b.ToTable("Currencies");
                 });
@@ -250,6 +224,29 @@ namespace ASPdemo.Migrations
                     b.ToTable("Portfolios");
                 });
 
+            modelBuilder.Entity("ASPdemo.Entities.PortfolioToken", b =>
+                {
+                    b.Property<int>("PortfolioTokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TokenAmount")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TokenName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PortfolioTokenId");
+
+                    b.ToTable("PortfolioToken");
+                });
+
             modelBuilder.Entity("ASPdemo.Entities.Role", b =>
                 {
                     b.Property<string>("Id")
@@ -272,6 +269,22 @@ namespace ASPdemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                            ConcurrencyStamp = "090308e3-a486-4928-8ed9-2e676e9343b9",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7269",
+                            ConcurrencyStamp = "4f7e4cad-c588-46e4-af22-01c155720ec9",
+                            Name = "guests",
+                            NormalizedName = "GUESTS"
+                        });
                 });
 
             modelBuilder.Entity("ASPdemo.Entities.User", b =>
@@ -337,6 +350,46 @@ namespace ASPdemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3854cea0-dbc3-4a42-8b70-e47d44484556",
+                            Email = "grantrynders@outlook.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GRANTRYNDERS@OUTLOOK.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEORq9a8F/i/bjmPoNu+RD0eD6n3roWSQEb/7ZNXGYmulmx7LJJ4WbvtayAGlKNkQMw==",
+                            PermissionsLevel = 0,
+                            PhoneNumberConfirmed = false,
+                            PortfolioId = 0,
+                            SecurityStamp = "79bdec91-f03d-49a5-a881-4b097cec4eaa",
+                            TwoFactorEnabled = false,
+                            UserId = 0,
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = "8e445865-a24d-4543-a6c6-9443d048c569",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "71b6fb6e-dbc5-4ac2-b673-734bb18bb116",
+                            Email = "guest@guest.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GUEST@GUEST.COM",
+                            NormalizedUserName = "GUEST",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIhO2LSV3q1u2bDofdPOIigYuk3PpF0L6+Sv+w/+e1SXIjqdbl4BINnHeDo1+xPMJA==",
+                            PermissionsLevel = 0,
+                            PhoneNumberConfirmed = false,
+                            PortfolioId = 0,
+                            SecurityStamp = "3d8f681e-caf7-40b9-8b6c-10de12c8c73e",
+                            TwoFactorEnabled = false,
+                            UserId = 0,
+                            UserName = "guest"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -411,6 +464,18 @@ namespace ASPdemo.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                            RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7210"
+                        },
+                        new
+                        {
+                            UserId = "8e445865-a24d-4543-a6c6-9443d048c569",
+                            RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7269"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -449,25 +514,6 @@ namespace ASPdemo.Migrations
                     b.ToTable("RoleUser");
                 });
 
-            modelBuilder.Entity("ASPdemo.Entities.CurrenciesPortfolios", b =>
-                {
-                    b.HasOne("ASPdemo.Entities.Currency", "currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ASPdemo.Entities.Portfolio", "portfolio")
-                        .WithMany()
-                        .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("currency");
-
-                    b.Navigation("portfolio");
-                });
-
             modelBuilder.Entity("ASPdemo.Entities.Currency", b =>
                 {
                     b.HasOne("ASPdemo.Entities.Category", null)
@@ -475,10 +521,6 @@ namespace ASPdemo.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ASPdemo.Entities.Portfolio", null)
-                        .WithMany("currencies")
-                        .HasForeignKey("PortfolioId");
                 });
 
             modelBuilder.Entity("ASPdemo.Entities.Portfolio", b =>
@@ -510,11 +552,6 @@ namespace ASPdemo.Migrations
             modelBuilder.Entity("ASPdemo.Entities.Category", b =>
                 {
                     b.Navigation("Coins");
-                });
-
-            modelBuilder.Entity("ASPdemo.Entities.Portfolio", b =>
-                {
-                    b.Navigation("currencies");
                 });
 
             modelBuilder.Entity("ASPdemo.Entities.User", b =>

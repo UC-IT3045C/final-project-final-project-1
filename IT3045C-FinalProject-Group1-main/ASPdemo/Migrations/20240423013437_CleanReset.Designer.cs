@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPdemo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240421210003_portfoliotokens")]
-    partial class portfoliotokens
+    [Migration("20240423013437_CleanReset")]
+    partial class CleanReset
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -259,8 +259,9 @@ namespace ASPdemo.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PortfolioTokenId");
 
@@ -294,9 +295,16 @@ namespace ASPdemo.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "028394ee-9773-49bf-8e08-12e2d437ff38",
+                            ConcurrencyStamp = "401d327a-5ccf-4911-82e0-5205b4bda0b0",
                             Name = "admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7269",
+                            ConcurrencyStamp = "05393c2a-d153-4914-97a3-cc875057c6b1",
+                            Name = "guests",
+                            NormalizedName = "GUESTS"
                         });
                 });
 
@@ -369,20 +377,39 @@ namespace ASPdemo.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "687aebbf-7942-4c6a-9af7-95961fdb0444",
+                            ConcurrencyStamp = "f6e82e28-fab8-4a28-9e0b-139c13907168",
                             Email = "grantrynders@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "GRANTRYNDERS@OUTLOOK.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGsr+mgDTBwmkKfM0SZkp6CRhllNp4+t7egOiHDPxNYEtPCWmUBZ/vhp4TIUo5aibg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKzOuCo6yn1Z+9ox/0n4rnSwowbQ8G6bLknZ6rqf6l9xYJUkuzbFtTU4grygq3Z5ow==",
                             PermissionsLevel = 0,
                             PhoneNumberConfirmed = false,
                             PortfolioId = 0,
-                            SecurityStamp = "d7dfa50e-bf5d-466b-a7d1-a60efc66f8e0",
+                            SecurityStamp = "0fbdbb55-81a5-4263-b322-aaf96ac5c230",
                             TwoFactorEnabled = false,
                             UserId = 0,
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = "8e445865-a24d-4543-a6c6-9443d048c569",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8d2a6213-fa22-4436-83db-ccf443af2ef3",
+                            Email = "guest@guest.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GUEST@GUEST.COM",
+                            NormalizedUserName = "GUEST",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGVv/4UQqCL5HniH4xdiu/baqWmqT3pDkDOHZEU90ksUyyORlXBed941Ue7N76JAiA==",
+                            PermissionsLevel = 0,
+                            PhoneNumberConfirmed = false,
+                            PortfolioId = 0,
+                            SecurityStamp = "5de09719-d1d8-446e-9bce-51c82b025fa8",
+                            TwoFactorEnabled = false,
+                            UserId = 0,
+                            UserName = "guest"
                         });
                 });
 
@@ -464,6 +491,11 @@ namespace ASPdemo.Migrations
                         {
                             UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7210"
+                        },
+                        new
+                        {
+                            UserId = "8e445865-a24d-4543-a6c6-9443d048c569",
+                            RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7269"
                         });
                 });
 
