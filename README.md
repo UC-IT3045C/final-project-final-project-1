@@ -11,10 +11,11 @@ classDiagram
     IdentityUser <|-- MicrosoftAspNetCoreIdentity
     Role --|> IdentityRole : Inherits from
     IdentityRole <|-- MicrosoftAspNetCoreIdentity
-    Currency <|--|> Portfolio : Many-to-Many (Using Join Table)
     User --|> Portfolio : Has One
+    Portfolio --|> PortfolioToken : Contains Many
+    PortfolioToken --|> User : Has One 
+    Currency <|-- Conversions : Contains Many
     User <|--|> Role : Many-to-Many (Using Join Table)
-    Admin --|> Role : Inherits from
     class Currency{
         +int CurrencyId PK
         +String CurrencyName
@@ -31,6 +32,7 @@ classDiagram
     }
     class Category{
         +int CategoryId PK
+        +string CMCCategoryId
         +String CategoryName
         +String CategoryTitle
         +String Description
@@ -41,12 +43,62 @@ classDiagram
         +Double Volume
         +Double VolumeChange
         +Double LastUpdated
+        +List<Currency> Coins
+    }
+    class Conversion{
+        +int ConversionId PK
+
+        +string? Pair1
+
+        +string? Pair2
+
+        +DateTime CreatedOn
+
+        +double? PercentChange24Hr
+
+        +string? Description
+
+        +double? Price
+
+        +double? Volume24
+
+        +double? PercentChange1hr
+
+        +double? PercentChange7d
+
+        +double? MarketCap
+
+        +double? TotalSupply
+
+        +double? SecondPercentChange24Hr
+
+        +string? SecondDescription
+
+        +double? SecondPrice
+
+        +double? SecondVolume24
+
+        +double? SecondPercentChange1hr
+
+        +double? SecondPercentChange7d
+
+        +double? SecondMarketCap
+
+        +double? SecondTotalSupply
     }
     class Portfolio{
-        +String walletAddress;
-        +List<Currency> currencies;
-        +Double portfolioValue;
+        +String walletAddress
+        +List<Currency> currencies
+        +Double portfolioValue
         +int PortfolioId PK
+        +String UserId FK
+        
+    }
+    class PortfolioToken{
+        +int PortfolioTokenId PK
+        +string UserId FK
+        +string TokenAmount
+        +string TokenName
     }
     class User{
         +int Id PK
@@ -84,11 +136,6 @@ classDiagram
         +ICollection<TUserRole> Users
     }
     class Role{
-        +String Id PK
-        +String Name
-        +List<User> Users
-    }
-    class Admin{
         +String Id PK
         +String Name
         +List<User> Users

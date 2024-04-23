@@ -115,6 +115,38 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, string, Identi
                 UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9"
             }
         );
+
+
+
+         modelBuilder.Entity<Role>().HasData(
+            new Role() 
+            {
+                Id = "2c5e174e-3b0e-446f-86af-483d56fd7269",
+                Name = "guests",
+                NormalizedName = "GUESTS",
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            });
+        modelBuilder.Entity<User>().HasData(
+            new User()
+            {
+                Id = "8e445865-a24d-4543-a6c6-9443d048c569", // primary key
+                UserName = "guest",
+                NormalizedUserName = "GUEST",
+                EmailConfirmed = true,
+                Email = "guest@guest.com",
+                NormalizedEmail = "GUEST@GUEST.COM",
+                PasswordHash = hasher.HashPassword(null, "password"),
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            }
+        );
+        //Seeding the relation between our user and role to AspNetUserRoles table
+        modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+            new IdentityUserRole<string>()
+            {
+                RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7269", 
+                UserId = "8e445865-a24d-4543-a6c6-9443d048c569"
+            }
+        );
     }
 
 
