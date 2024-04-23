@@ -141,27 +141,6 @@ namespace ASPdemo.Migrations
                     b.ToTable("Conversions");
                 });
 
-            modelBuilder.Entity("ASPdemo.Entities.CurrenciesPortfolios", b =>
-                {
-                    b.Property<int>("CurrenciesPortfoliosId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PortfolioId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("CurrenciesPortfoliosId");
-
-                    b.HasIndex("CurrencyId");
-
-                    b.HasIndex("PortfolioId");
-
-                    b.ToTable("CurrenciesPortfolios");
-                });
-
             modelBuilder.Entity("ASPdemo.Entities.Currency", b =>
                 {
                     b.Property<int>("CurrencyId")
@@ -292,14 +271,14 @@ namespace ASPdemo.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "651e37ee-5dbb-4df9-9dde-2ffd96feecec",
+                            ConcurrencyStamp = "090308e3-a486-4928-8ed9-2e676e9343b9",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7269",
-                            ConcurrencyStamp = "d7dccd18-3e8e-4626-9f0d-761cc657fc7d",
+                            ConcurrencyStamp = "4f7e4cad-c588-46e4-af22-01c155720ec9",
                             Name = "guests",
                             NormalizedName = "GUESTS"
                         });
@@ -374,17 +353,17 @@ namespace ASPdemo.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b86b3ba8-fa48-4d26-b645-0253a5c6b4f7",
+                            ConcurrencyStamp = "3854cea0-dbc3-4a42-8b70-e47d44484556",
                             Email = "grantrynders@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "GRANTRYNDERS@OUTLOOK.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDa0KTWY93dqbmK67I43jQHgaWASv07PCyq0ScM6oGyWhM+NS509TkwV3ZrLirfqEg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEORq9a8F/i/bjmPoNu+RD0eD6n3roWSQEb/7ZNXGYmulmx7LJJ4WbvtayAGlKNkQMw==",
                             PermissionsLevel = 0,
                             PhoneNumberConfirmed = false,
                             PortfolioId = 0,
-                            SecurityStamp = "782e10fe-c0ba-45c1-9218-2faa313d3c7e",
+                            SecurityStamp = "79bdec91-f03d-49a5-a881-4b097cec4eaa",
                             TwoFactorEnabled = false,
                             UserId = 0,
                             UserName = "admin"
@@ -393,17 +372,17 @@ namespace ASPdemo.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048c569",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6996c2fa-0f86-4d1d-b2cc-d44cae9a841f",
+                            ConcurrencyStamp = "71b6fb6e-dbc5-4ac2-b673-734bb18bb116",
                             Email = "guest@guest.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@GUEST.COM",
                             NormalizedUserName = "GUEST",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAFHx3VNWJb+KvvAZj6R21NsniT21NyLp+AnUcKGyzr4SPUGnQnHtr+jlX8p5ZB7MA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIhO2LSV3q1u2bDofdPOIigYuk3PpF0L6+Sv+w/+e1SXIjqdbl4BINnHeDo1+xPMJA==",
                             PermissionsLevel = 0,
                             PhoneNumberConfirmed = false,
                             PortfolioId = 0,
-                            SecurityStamp = "8cfa1ac9-f67c-48db-a662-96358a992a9f",
+                            SecurityStamp = "3d8f681e-caf7-40b9-8b6c-10de12c8c73e",
                             TwoFactorEnabled = false,
                             UserId = 0,
                             UserName = "guest"
@@ -530,25 +509,6 @@ namespace ASPdemo.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("RoleUser");
-                });
-
-            modelBuilder.Entity("ASPdemo.Entities.CurrenciesPortfolios", b =>
-                {
-                    b.HasOne("ASPdemo.Entities.Currency", "currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ASPdemo.Entities.Portfolio", "portfolio")
-                        .WithMany()
-                        .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("currency");
-
-                    b.Navigation("portfolio");
                 });
 
             modelBuilder.Entity("ASPdemo.Entities.Currency", b =>

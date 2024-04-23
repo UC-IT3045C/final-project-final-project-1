@@ -84,6 +84,7 @@ app.UseCors(builder =>
 
 app.MapGet("/fetch_progress/", async (ApplicationDbContext dbContext) =>
 {
+    dbContext.Database.EnsureCreated();
     var currencies = dbContext.Currencies.ToList();
     var categories = dbContext.Categories.ToList();
 

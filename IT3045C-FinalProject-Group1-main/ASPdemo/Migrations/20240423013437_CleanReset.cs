@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ASPdemo.Migrations
 {
     /// <inheritdoc />
-    public partial class ResetModel : Migration
+    public partial class CleanReset : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -96,6 +98,21 @@ namespace ASPdemo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PortfolioToken",
+                columns: table => new
+                {
+                    PortfolioTokenId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    TokenAmount = table.Column<string>(type: "TEXT", nullable: false),
+                    TokenName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PortfolioToken", x => x.PortfolioTokenId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -178,6 +195,37 @@ namespace ASPdemo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Currencies",
+                columns: table => new
+                {
+                    CurrencyId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CMCId = table.Column<string>(type: "TEXT", nullable: true),
+                    CurrencyName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Slug = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Symbol = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    PercentChange24Hr = table.Column<double>(type: "REAL", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Price = table.Column<double>(type: "REAL", nullable: true),
+                    Volume24 = table.Column<double>(type: "REAL", nullable: true),
+                    PercentChange1hr = table.Column<double>(type: "REAL", nullable: true),
+                    PercentChange7d = table.Column<double>(type: "REAL", nullable: true),
+                    MarketCap = table.Column<double>(type: "REAL", nullable: true),
+                    TotalSupply = table.Column<double>(type: "REAL", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currencies", x => x.CurrencyId);
+                    table.ForeignKey(
+                        name: "FK_Currencies_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Portfolios",
                 columns: table => new
                 {
@@ -223,43 +271,6 @@ namespace ASPdemo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Currencies",
-                columns: table => new
-                {
-                    CurrencyId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CMCId = table.Column<string>(type: "TEXT", nullable: true),
-                    CurrencyName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    Slug = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    Symbol = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    PercentChange24Hr = table.Column<double>(type: "REAL", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Price = table.Column<double>(type: "REAL", nullable: true),
-                    Volume24 = table.Column<double>(type: "REAL", nullable: true),
-                    PercentChange1hr = table.Column<double>(type: "REAL", nullable: true),
-                    PercentChange7d = table.Column<double>(type: "REAL", nullable: true),
-                    MarketCap = table.Column<double>(type: "REAL", nullable: true),
-                    TotalSupply = table.Column<double>(type: "REAL", nullable: true),
-                    PortfolioId = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Currencies", x => x.CurrencyId);
-                    table.ForeignKey(
-                        name: "FK_Currencies_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Currencies_Portfolios_PortfolioId",
-                        column: x => x.PortfolioId,
-                        principalTable: "Portfolios",
-                        principalColumn: "PortfolioId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CurrenciesPortfolios",
                 columns: table => new
                 {
@@ -285,15 +296,37 @@ namespace ASPdemo.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "401d327a-5ccf-4911-82e0-5205b4bda0b0", "admin", "ADMIN" },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7269", "05393c2a-d153-4914-97a3-cc875057c6b1", "guests", "GUESTS" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7269", "8e445865-a24d-4543-a6c6-9443d048c569" },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "8e445865-a24d-4543-a6c6-9443d048cdb9" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PermissionsLevel", "PhoneNumber", "PhoneNumberConfirmed", "PortfolioId", "SecurityStamp", "TwoFactorEnabled", "UserId", "UserName" },
+                values: new object[,]
+                {
+                    { "8e445865-a24d-4543-a6c6-9443d048c569", 0, "8d2a6213-fa22-4436-83db-ccf443af2ef3", "guest@guest.com", true, false, null, "GUEST@GUEST.COM", "GUEST", "AQAAAAIAAYagAAAAEGVv/4UQqCL5HniH4xdiu/baqWmqT3pDkDOHZEU90ksUyyORlXBed941Ue7N76JAiA==", 0, null, false, 0, "5de09719-d1d8-446e-9bce-51c82b025fa8", false, 0, "guest" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "f6e82e28-fab8-4a28-9e0b-139c13907168", "grantrynders@outlook.com", true, false, null, "GRANTRYNDERS@OUTLOOK.COM", "ADMIN", "AQAAAAIAAYagAAAAEKzOuCo6yn1Z+9ox/0n4rnSwowbQ8G6bLknZ6rqf6l9xYJUkuzbFtTU4grygq3Z5ow==", 0, null, false, 0, "0fbdbb55-81a5-4263-b322-aaf96ac5c230", false, 0, "admin" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Currencies_CategoryId",
                 table: "Currencies",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Currencies_PortfolioId",
-                table: "Currencies",
-                column: "PortfolioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CurrenciesPortfolios_CurrencyId",
@@ -333,6 +366,9 @@ namespace ASPdemo.Migrations
                 name: "IdentityUserClaim<string>");
 
             migrationBuilder.DropTable(
+                name: "PortfolioToken");
+
+            migrationBuilder.DropTable(
                 name: "RoleUser");
 
             migrationBuilder.DropTable(
@@ -348,13 +384,13 @@ namespace ASPdemo.Migrations
                 name: "Currencies");
 
             migrationBuilder.DropTable(
+                name: "Portfolios");
+
+            migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Portfolios");
 
             migrationBuilder.DropTable(
                 name: "Users");
